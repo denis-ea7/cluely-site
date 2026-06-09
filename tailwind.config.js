@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -17,7 +17,7 @@ module.exports = {
           200: '#bae6fd',
           300: '#7dd3fc',
           400: '#38bdf8',
-          500: '#3b82f6', // blue-500
+          500: '#3b82f6', 
           600: '#2563eb',
           700: '#1d4ed8',
           800: '#1e40af',

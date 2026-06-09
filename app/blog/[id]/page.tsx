@@ -206,7 +206,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-100 via-white to-yellow-50">
-      {/* Header */}
+      {}
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -225,10 +225,10 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
         </div>
       </header>
 
-      {/* Article */}
+      {}
       <article className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Back Link */}
+          {}
           <Link
             href="/blog"
             className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8 transition-colors"
@@ -249,7 +249,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             Вернуться к блогу
           </Link>
 
-          {/* Category and Date */}
+          {}
           <div className="flex items-center justify-between mb-6">
             <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
               {post.category}
@@ -259,17 +259,17 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </time>
           </div>
 
-          {/* Title */}
+          {}
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             {post.title}
           </h1>
 
-          {/* Author */}
+          {}
           <p className="text-slate-600 mb-8 text-lg">
             Автор: <span className="font-semibold text-slate-700">{post.author}</span>
           </p>
 
-          {/* Image Placeholder */}
+          {}
           <div className="relative h-96 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl mb-8 overflow-hidden shadow-lg">
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-8xl opacity-20">
@@ -284,14 +284,14 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {/* Content */}
+          {}
           <div className="prose prose-lg max-w-none mb-8 text-slate-700">
             {formatContent(post.content)}
           </div>
 
-          {/* Tags */}
+          {}
           <div className="flex flex-wrap gap-2 mb-8 pt-8 border-t border-slate-200">
-            {post.tags.map((tag) => (
+            {post.tags.map((tag: string) => (
               <span
                 key={tag}
                 className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-medium border border-slate-200"
@@ -301,7 +301,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             ))}
           </div>
 
-          {/* Share Section */}
+          {}
           <div className="bg-white/80 backdrop-blur-md rounded-xl p-6 mb-8 border border-slate-200 shadow-lg">
             <h3 className="text-lg font-semibold text-slate-900 mb-4">
               Поделиться статьей
@@ -319,7 +319,7 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {/* Back Link Bottom */}
+          {}
           <Link
             href="/blog"
             className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors"

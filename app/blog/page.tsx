@@ -161,7 +161,7 @@ const blogPosts = [
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-100 via-white to-yellow-50">
-      {/* Header */}
+      {}
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -180,7 +180,7 @@ export default function BlogPage() {
         </div>
       </header>
 
-      {/* Blog Content */}
+      {}
       <main className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">

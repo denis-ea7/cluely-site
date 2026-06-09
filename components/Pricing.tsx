@@ -13,6 +13,8 @@ export default function Pricing() {
         'Поддержка по email',
       ],
       popular: false,
+      cta: 'Начать сейчас',
+      href: '/auth/?plan=basic',
     },
     {
       name: 'Профессиональный',
@@ -28,6 +30,8 @@ export default function Pricing() {
         'Экспорт данных',
       ],
       popular: true,
+      cta: 'Начать сейчас',
+      href: '/auth/?plan=pro',
     },
     {
       name: 'Корпоративный',
@@ -43,6 +47,8 @@ export default function Pricing() {
         'SLA гарантия',
       ],
       popular: false,
+      cta: 'Связаться с нами',
+      href: 'mailto:sales@cluely.ru?subject=Корпоративный%20план',
     },
   ]
 
@@ -92,15 +98,16 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <button
-                className={`w-full py-3 rounded-lg font-semibold transition-all ${
+              <a
+                href={plan.href}
+                className={`block text-center w-full py-3 rounded-lg font-semibold transition-all ${
                   plan.popular
                     ? 'bg-white text-blue-600 hover:bg-gray-100 shadow-lg'
                     : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
                 }`}
               >
-                Начать сейчас
-              </button>
+                {plan.cta}
+              </a>
             </div>
           ))}
         </div>

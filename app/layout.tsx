@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import TopNav from '@/components/TopNav'
 
 export const metadata: Metadata = {
   title: 'Cluely Россия - Российская адаптация невидимого AI-ассистента для встреч и интервью',
@@ -41,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased"><TopNav />{children}</body>
     </html>
   )
 }

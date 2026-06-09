@@ -1,14 +1,14 @@
 export default function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden">
-      {/* Sky gradient background - как в оригинале */}
+      {}
       <div className="absolute inset-0 bg-gradient-to-b from-sky-100 via-white to-yellow-50"></div>
-      {/* Mountain silhouettes */}
+      {}
       <div className="absolute bottom-0 left-0 right-0 h-64">
         <div className="absolute inset-0 bg-gradient-to-t from-slate-800 via-purple-900 to-slate-700 opacity-40" 
              style={{ clipPath: 'polygon(0 60%, 20% 40%, 40% 50%, 60% 35%, 80% 45%, 100% 30%, 100% 100%, 0 100%)' }}></div>
       </div>
-      {/* Sun */}
+      {}
       <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-yellow-200 rounded-full blur-3xl opacity-60"></div>
       
       <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
