@@ -55,6 +55,26 @@ export function apiUserInfo(token: string) {
   })
 }
 
+export type LlmLog = {
+  id: string
+  email: string | null
+  model: string | null
+  images_count: number
+  system_prompt: string | null
+  user_prompt: string | null
+  response: string | null
+  error: string | null
+  created_at: string
+}
+
+/** Admin-only: fetch per-request LLM logs (prompt + response). */
+export function apiAdminLogs(token: string, email?: string) {
+  const q = email ? `?email=${encodeURIComponent(email)}` : ''
+  return call<{ logs?: LlmLog[]; error?: string }>(`/admin/logs${q}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
 export function apiActivate(token: string, plan: string) {
   return call<{ ok?: boolean; plan?: string; premiumUntil?: string; error?: string }>('/billing/activate', {
     method: 'POST',
