@@ -1,107 +1,47 @@
 import Link from 'next/link'
+import BlogCover from '@/components/BlogCover'
+import type { BlogPost as Post } from '@/lib/blog'
 
-interface BlogPostProps {
-  post: {
-    id: number
-    title: string
-    date: string
-    author: string
-    excerpt: string
-    content: string
-    category: string
-    image: string
-    tags: string[]
-  }
-}
-
-export default function BlogPost({ post }: BlogPostProps) {
+export default function BlogPost({ post }: { post: Post }) {
   return (
-    <article className="bg-white/80 backdrop-blur-md rounded-xl overflow-hidden hover:shadow-xl transition-all shadow-lg border border-slate-200">
-      {}
-      <div className="relative h-64 bg-gradient-to-br from-blue-400 to-purple-500">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-6xl opacity-20">
-            {post.category === 'Обновления' && '🔄'}
-            {post.category === 'Функции' && '⚡'}
-            {post.category === 'Улучшения' && '✨'}
-            {!['Обновления', 'Функции', 'Улучшения'].includes(post.category) && '📝'}
-          </div>
-        </div>
-        {}
-        <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-          <span className="text-white/50 text-sm">{post.title}</span>
-        </div>
-      </div>
-
-      <div className="p-8">
-        {}
-        <div className="flex items-center justify-between mb-4">
-          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+    <article className="glass overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:border-line/20">
+      {/* Cover art */}
+      <Link href={`/blog/${post.id}`} className="block">
+        <div className="relative">
+          <BlogCover gradient={post.gradient} seed={post.id} className="h-48 w-full" />
+          <span className="absolute left-4 top-4 rounded-full bg-black/25 px-3 py-1 text-xs font-medium text-white backdrop-blur">
             {post.category}
           </span>
-          <time className="text-slate-500 text-sm">
-            {post.date}
-          </time>
+        </div>
+      </Link>
+
+      <div className="p-7">
+        <div className="mb-3 flex items-center justify-between">
+          <time className="text-sm text-faint">{post.date}</time>
+          <span className="text-sm text-faint">{post.author}</span>
         </div>
 
-        {}
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-          {post.title}
-        </h2>
+        <h2 className="mb-3 text-2xl font-bold text-fg">{post.title}</h2>
+        <p className="mb-5 leading-relaxed text-muted">{post.excerpt}</p>
 
-        {}
-        <p className="text-slate-600 mb-4">
-          Автор: <span className="font-semibold text-slate-700">{post.author}</span>
-        </p>
-
-        {}
-        <p className="text-lg text-slate-700 mb-6 leading-relaxed">
-          {post.excerpt}
-        </p>
-
-        {}
-        <div className="prose prose-lg max-w-none mb-6">
-          {post.content.split('\n\n').slice(0, 2).map((paragraph, index) => (
-            <p key={index} className="text-slate-600 mb-4">
-              {paragraph.replace(/\*\*(.*?)\*\*/g, '$1')}
-            </p>
-          ))}
-        </div>
-
-        {}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="mb-6 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm border border-slate-200"
-            >
+            <span key={tag} className="rounded-full border border-line/10 bg-fg/5 px-3 py-1 text-xs text-muted">
               #{tag}
             </span>
           ))}
         </div>
 
-        {}
         <Link
           href={`/blog/${post.id}`}
-          className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+          className="inline-flex items-center gap-2 font-semibold text-indigo-400 transition-colors hover:text-indigo-300"
         >
           Читать полностью
-          <svg
-            className="ml-2 w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </Link>
       </div>
     </article>
   )
 }
-

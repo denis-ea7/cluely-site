@@ -1,29 +1,24 @@
 export default function CTA() {
   return (
-    <section className="py-20 bg-gradient-to-b from-sky-100 to-yellow-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Готовы начать?
+    <section className="relative py-24">
+      <div className="container mx-auto px-4">
+        <div className="force-dark relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-line/10 px-6 py-16 text-center text-fg md:px-16">
+          <div className="absolute inset-0 -z-20 bg-slate-950" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(40rem_20rem_at_50%_0%,rgba(99,102,241,0.35),transparent_70%)]" />
+
+          <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">
+            Превратите следующий разговор в <span className="text-gradient">оффер</span>
           </h2>
-          <p className="text-xl text-slate-700 mb-4 max-w-2xl mx-auto">
-            Присоединяйтесь к тысячам профессионалов в России и СНГ, которые уже используют Cluely 
-            для более эффективных встреч и интервью
+          <p className="mx-auto mt-4 max-w-xl text-lg text-muted">
+            Установите Suflo за пару минут и получайте нужные ответы в реальном времени —
+            незаметно для собеседника.
           </p>
-          <p className="text-sm text-slate-600 mb-8 max-w-2xl mx-auto">
-            Российская адаптация <a href="https://cluely.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline font-semibold">оригинального Cluely</a>
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#pricing"
-              className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
-            >
-              Выбрать план
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="#pricing" className="btn btn-primary w-full px-6 py-3 text-base sm:w-auto">
+              Выбрать тариф
             </a>
-            <a
-              href="mailto:contact@cluely.com"
-              className="px-8 py-4 bg-white/80 backdrop-blur-md text-blue-600 rounded-lg font-semibold text-lg hover:bg-white transition-all shadow-lg border-2 border-blue-600"
-            >
+            <a href="mailto:contact@suflo.ru" className="btn btn-ghost w-full px-6 py-3 text-base sm:w-auto">
               Связаться с нами
             </a>
           </div>
@@ -32,4 +27,3 @@ export default function CTA() {
     </section>
   )
 }
-

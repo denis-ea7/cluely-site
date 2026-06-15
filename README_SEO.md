@@ -1,22 +1,22 @@
-# SEO-оптимизация для Cluely Россия
+# SEO-оптимизация для Suflo Россия
 
 ## Выполненные задачи
 
-### 1. Упоминание оригинального сайта (cluely.com)
+### 1. Упоминание оригинального сайта (suflo.com)
 
 ✅ **Метатеги:**
-- В `app/layout.tsx` добавлены ссылки на оригинальный cluely.com
+- В `app/layout.tsx` добавлены ссылки на оригинальный suflo.com
 - Canonical URL указан
 - Open Graph теги обновлены
 
 ✅ **Контент:**
-- Hero секция содержит ссылку на cluely.com
+- Hero секция содержит ссылку на suflo.com
 - Footer содержит упоминание оригинального проекта
 - Все компоненты обновлены с упоминанием российской адаптации
 
 ✅ **Мета-описание:**
-- Все описания указывают на то, что это российская адаптация Cluely
-- Упоминается оригинальный проект cluely.com
+- Все описания указывают на то, что это российская адаптация Suflo
+- Упоминается оригинальный проект suflo.com
 
 ### 2. Robots.txt и Sitemap.xml
 
@@ -35,18 +35,18 @@
 
 ✅ **Добавлены hreflang теги:**
 - В `app/layout.tsx` в `<head>`:
-  - `<link rel="alternate" hrefLang="ru" href="https://cluely.ru" />`
-  - `<link rel="alternate" hrefLang="en" href="https://cluely.com" />`
+  - `<link rel="alternate" hrefLang="ru" href="https://suflo.ru" />`
+  - `<link rel="alternate" hrefLang="en" href="https://suflo.com" />`
 - В метаданных всех страниц через `alternates.languages`
 - В sitemap.xml через `alternates.languages`
 
 ### 4. Уникальный и адаптированный контент
 
 ✅ **Все тексты обновлены:**
-- "Cluely Россия" вместо просто "Cluely"
+- "Suflo Россия" вместо просто "Suflo"
 - Упоминание "российская адаптация"
 - Упоминание "для России и СНГ"
-- Ссылки на оригинальный cluely.com
+- Ссылки на оригинальный suflo.com
 
 ✅ **Компоненты обновлены:**
 - Hero: упоминание российской адаптации
@@ -57,14 +57,14 @@
 - CTA: упоминание России и СНГ
 
 ✅ **Блог:**
-- Все посты обновлены с упоминанием "Cluely Россия"
-- Авторы: "Команда Cluely Россия"
+- Все посты обновлены с упоминанием "Suflo Россия"
+- Авторы: "Команда Suflo Россия"
 - Метаданные обновлены
 
 ## Структура файлов
 
 ```
-cluely-site/
+suflo-site/
 ├── app/
 │   ├── layout.tsx          # Метатеги, hreflang, canonical
 │   ├── sitemap.ts          # Динамический sitemap
@@ -76,12 +76,12 @@ cluely-site/
 ├── public/
 │   └── robots.txt          # Robots.txt для поисковиков
 └── components/
-    ├── Hero.tsx            # Упоминание cluely.com
+    ├── Hero.tsx            # Упоминание suflo.com
     ├── Features.tsx
-    ├── Benefits.tsx        # Упоминание cluely.com
+    ├── Benefits.tsx        # Упоминание suflo.com
     ├── Pricing.tsx
-    ├── CTA.tsx             # Упоминание cluely.com
-    └── Footer.tsx          # Упоминание cluely.com
+    ├── CTA.tsx             # Упоминание suflo.com
+    └── Footer.tsx          # Упоминание suflo.com
 ```
 
 ## SEO-метрики
@@ -98,15 +98,15 @@ cluely-site/
 ## Проверка
 
 После деплоя проверьте:
-1. `https://cluely.ru/robots.txt` - доступен и правильный
-2. `https://cluely.ru/sitemap.xml` - генерируется автоматически
+1. `https://suflo.ru/robots.txt` - доступен и правильный
+2. `https://suflo.ru/sitemap.xml` - генерируется автоматически
 3. Hreflang теги в `<head>` каждой страницы
 4. Canonical URL в метатегах
-5. Ссылки на cluely.com работают
+5. Ссылки на suflo.com работают
 
 ## Примечания
 
-- Все ссылки на cluely.com открываются в новой вкладке (`target="_blank" rel="noopener noreferrer"`)
+- Все ссылки на suflo.com открываются в новой вкладке (`target="_blank" rel="noopener noreferrer"`)
 - Упоминание оригинального проекта везде внизу или в футере
 - Контент уникален и адаптирован для русскоязычной аудитории
 

@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="bg-app bg-grid min-h-screen overflow-hidden">
       <Hero />
       <Features />
       <Benefits />

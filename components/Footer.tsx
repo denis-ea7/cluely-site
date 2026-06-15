@@ -1,50 +1,59 @@
+import Logo from '@/components/Logo'
+
+const cols = [
+  {
+    title: 'Продукт',
+    links: [
+      { label: 'Возможности', href: '#features' },
+      { label: 'Как это работает', href: '#benefits' },
+      { label: 'Цены', href: '#pricing' },
+      { label: 'Скачать', href: '/download/' },
+    ],
+  },
+  {
+    title: 'Компания',
+    links: [
+      { label: 'Блог', href: '/blog' },
+      { label: 'Кабинет', href: '/account/' },
+      { label: 'Контакты', href: 'mailto:contact@suflo.ru' },
+    ],
+  },
+]
+
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 border-t border-slate-800 text-gray-300 py-12">
+    <footer className="border-t border-line/10 py-14">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <h3 className="text-white text-xl font-bold mb-4">Cluely Россия</h3>
-            <p className="text-sm mb-2">
-              Российская адаптация невидимого AI-ассистента для встреч и интервью
-            </p>
-            <p className="text-xs text-gray-500">
-              Основано на <a href="https://cluely.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">cluely.com</a>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-2">
+            <Logo size={30} className="text-fg text-lg" />
+            <p className="mt-4 max-w-xs text-sm text-muted">
+              Невидимый AI-суфлёр: подсказывает нужные ответы во время встреч и интервью.
+              Для России и СНГ.
             </p>
           </div>
-          <div>
-            <h4 className="text-white font-semibold mb-4">Продукт</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#features" className="hover:text-white transition-colors">Возможности</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Цены</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Документация</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-semibold mb-4">Компания</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">О нас</a></li>
-              <li><a href="/blog" className="hover:text-white transition-colors">Блог</a></li>
-              <li><a href="mailto:contact@cluely.com" className="hover:text-white transition-colors">Контакты</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-semibold mb-4">Поддержка</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition-colors">Помощь</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Политика конфиденциальности</a></li>
-            </ul>
-          </div>
+
+          {cols.map((col) => (
+            <div key={col.title}>
+              <h4 className="mb-4 text-sm font-semibold text-fg">{col.title}</h4>
+              <ul className="space-y-2.5">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href} className="text-sm text-muted transition-colors hover:text-fg">
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="border-t border-gray-800 pt-8 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} Cluely Россия. Все права защищены.</p>
-          <p className="text-xs text-gray-500 mt-2">
-            Российская адаптация оригинального проекта <a href="https://cluely.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Cluely</a>
-          </p>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line/10 pt-6 text-sm text-faint sm:flex-row">
+          <p>&copy; {new Date().getFullYear()} Suflo. Все права защищены.</p>
+          <p>AI-суфлёр для встреч и интервью · suflo.ru</p>
         </div>
       </div>
     </footer>
   )
 }
-

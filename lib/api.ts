@@ -2,10 +2,10 @@
 // (output: 'export'), so everything here runs in the browser: the JWT is kept
 // in localStorage and all calls go straight to the backend API.
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://121.127.37.208:4000'
-export const DEEPLINK_SCHEME = process.env.NEXT_PUBLIC_DEEPLINK_SCHEME || 'cluely'
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://suflo.ru/api'
+export const DEEPLINK_SCHEME = process.env.NEXT_PUBLIC_DEEPLINK_SCHEME || 'suflo'
 
-const TOKEN_KEY = 'cluely_token'
+const TOKEN_KEY = 'suflo_token'
 
 export function getToken(): string | null {
   if (typeof window === 'undefined') return null
@@ -63,9 +63,61 @@ export function apiActivate(token: string, plan: string) {
   })
 }
 
-export const PLANS: Record<string, { name: string; price: number; period: string }> = {
-  basic: { name: 'Базовый', price: 990, period: 'месяц' },
-  pro: { name: 'Профессиональный', price: 1990, period: 'месяц' },
+/** Create a YooKassa payment and get the URL to redirect the user to. */
+export function apiCheckout(token: string, plan: string) {
+  return call<{ confirmationUrl?: string; paymentId?: string; error?: string }>('/billing/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ plan }),
+  })
+}
+
+export type Plan = {
+  name: string
+  price: number
+  /** Human-readable period shown on the card, e.g. "30 дней". */
+  period: string
+  /** Access duration in days — drives premium extension on the backend. */
+  days: number
+  popular?: boolean
+  /** Short pitch shown under the common access line. */
+  tagline: string
+}
+
+export const PLANS: Record<string, Plan> = {
+  starter: {
+    name: 'Starter',
+    price: 640,
+    period: '7 дней',
+    days: 7,
+    tagline: 'Отлично подходит для первого знакомства и тестирования сервиса.',
+  },
+  standart: {
+    name: 'Standart',
+    price: 1620,
+    period: '30 дней',
+    days: 30,
+    popular: true,
+    tagline: 'Идеален для регулярных собесов и активного поиска работы.',
+  },
+  plus: {
+    name: 'Plus',
+    price: 2980,
+    period: '90 дней',
+    days: 90,
+    tagline: 'Подходит для затяжного поиска работы.',
+  },
+}
+
+/** Plans in display order. */
+export const PLAN_ORDER: string[] = ['starter', 'standart', 'plus']
+
+/** Default plan id used when none is specified in the URL. */
+export const DEFAULT_PLAN = 'standart'
+
+/** Format a ruble amount with a thin-space thousands separator: 1620 → "1 620". */
+export function formatPrice(n: number): string {
+  return n.toLocaleString('ru-RU')
 }
 
 /** Map a backend error code to a Russian message. */

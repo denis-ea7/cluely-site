@@ -1,54 +1,53 @@
-export default function Benefits() {
-  const benefits = [
-    {
-      title: 'Уверенность на интервью',
-      description: 'Получайте подсказки и ответы в реальном времени, чтобы произвести лучшее впечатление',
-    },
-    {
-      title: 'Эффективные встречи',
-      description: 'Не упускайте важные детали и сразу получайте резюме обсуждений',
-    },
-    {
-      title: 'Успешные презентации',
-      description: 'Помощь в ответах на вопросы и предложения по улучшению вашего выступления',
-    },
-    {
-      title: 'Обучение и развитие',
-      description: 'Учитесь на каждой встрече, получая аналитику и рекомендации',
-    },
-  ]
+const steps = [
+  {
+    n: '01',
+    title: 'Запустите незаметно',
+    description: 'Suflo выглядит как «Заметки» и держится поверх любого окна. Включается одной горячей клавишей.',
+  },
+  {
+    n: '02',
+    title: 'Suflo слушает разговор',
+    description: 'Распознаёт речь собеседника в реальном времени и понимает контекст диалога и того, что на экране.',
+  },
+  {
+    n: '03',
+    title: 'Читаете готовый ответ',
+    description: 'Подсказка появляется на экране за секунды — отвечаете уверенно и по делу, не выдавая себя.',
+  },
+]
 
+const useCases = ['Собеседования и лайвкодинг', 'Звонки с клиентами', 'Переговоры', 'Презентации и экзамены']
+
+export default function Benefits() {
   return (
-    <section className="py-20 bg-gradient-to-b from-yellow-50 to-orange-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Преимущества
+    <section id="benefits" className="relative py-24">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-400">Как это работает</p>
+          <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">
+            Три шага до уверенного ответа
           </h2>
-          <p className="text-xl text-slate-700 max-w-2xl mx-auto mb-2">
-            Почему тысячи профессионалов в России и СНГ выбирают Cluely
-          </p>
-          <p className="text-sm text-slate-600 mt-2 max-w-2xl mx-auto">
-            Российская адаптация оригинального <a href="https://cluely.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline font-semibold">cluely.com</a>
-          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              className="p-8 bg-white/80 backdrop-blur-md rounded-xl shadow-lg hover:shadow-xl transition-all border border-white/50"
-            >
-              <h3 className="text-2xl font-semibold text-slate-900 mb-3">
-                {benefit.title}
-              </h3>
-              <p className="text-slate-600 text-lg">
-                {benefit.description}
-              </p>
+
+        <div className="relative grid grid-cols-1 gap-4 md:grid-cols-3">
+          {steps.map((s) => (
+            <div key={s.n} className="glass rounded-2xl p-7">
+              <div className="text-gradient mb-4 text-5xl font-extrabold tracking-tight">{s.n}</div>
+              <h3 className="mb-2 text-xl font-semibold text-fg">{s.title}</h3>
+              <p className="text-sm leading-relaxed text-muted">{s.description}</p>
             </div>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          <span className="text-sm text-faint">Подходит для:</span>
+          {useCases.map((u) => (
+            <span key={u} className="glass rounded-full px-4 py-1.5 text-sm text-muted">
+              {u}
+            </span>
           ))}
         </div>
       </div>
     </section>
   )
 }
-

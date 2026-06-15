@@ -4,55 +4,165 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-:root {
-  --foreground-rgb: 15, 23, 42; /* slate-900 */
-  --background-start-rgb: 219, 234, 254; /* sky-100 */
-  --background-end-rgb: 254, 249, 195; /* yellow-50 */
+/* ============================================================
+   Suflo — design system with light + dark themes.
+   Dark is the default (:root); .light overrides the tokens.
+   Tokens are space-separated RGB triples so Tailwind's
+   `rgb(var(--x) / <alpha>)` colors (fg/muted/faint/surface/line) work.
+   ============================================================ */
+:root,
+.dark,
+.force-dark {
+  --bg: 6 8 16;
+  --surface: 13 18 35;
+  --fg: 230 233 242;
+  --muted: 149 160 189;
+  --faint: 100 116 139;
+  --line: 255 255 255;
+
+  --glass-bg: rgba(255, 255, 255, 0.035);
+  --glass-strong-bg: rgba(13, 18, 35, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --ghost-bg: rgba(255, 255, 255, 0.05);
+  --ghost-bg-hover: rgba(255, 255, 255, 0.1);
+  --app-glow-1: rgba(99, 102, 241, 0.18);
+  --app-glow-2: rgba(37, 99, 235, 0.14);
+  --grid-line: rgba(255, 255, 255, 0.04);
+  color-scheme: dark;
 }
+
+.light {
+  --bg: 247 248 252;
+  --surface: 255 255 255;
+  --fg: 15 23 42;
+  --muted: 71 85 105;
+  --faint: 100 116 139;
+  --line: 15 23 42;
+
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-strong-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --ghost-bg: rgba(15, 23, 42, 0.04);
+  --ghost-bg-hover: rgba(15, 23, 42, 0.08);
+  --app-glow-1: rgba(99, 102, 241, 0.14);
+  --app-glow-2: rgba(37, 99, 235, 0.1);
+  --grid-line: rgba(15, 23, 42, 0.04);
+  color-scheme: light;
+}
+
+html { scroll-behavior: smooth; }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, #dbeafe 0%, #ffffff 40%, #fef3c7 100%);
+  color: rgb(var(--fg));
+  background: rgb(var(--bg));
   font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Liquid Glass Effect - как в оригинальном Cluely */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px) saturate(180%) brightness(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(120%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+/* Ambient page background: base + two brand glows + faint grid. */
+.bg-app {
+  position: relative;
+  background:
+    radial-gradient(60rem 40rem at 80% -10%, var(--app-glow-1), transparent 60%),
+    radial-gradient(50rem 40rem at 0% 10%, var(--app-glow-2), transparent 55%),
+    rgb(var(--bg));
+}
+.bg-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(70% 60% at 50% 0%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, #000 30%, transparent 100%);
+  pointer-events: none;
 }
 
-.liquid-glass-light {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px) saturate(200%) brightness(110%);
-  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(110%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* Glass surfaces (theme-aware). */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.glass-strong {
+  background: var(--glass-strong-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
-/* Gradient backgrounds в стиле Cluely */
-.gradient-cluely {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* Brand gradient helpers. */
+.text-gradient {
+  background: linear-gradient(100deg, #818cf8 0%, #6366f1 35%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
+.bg-brand { background: linear-gradient(120deg, #2563eb, #6366f1); }
+.ring-brand { box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4), 0 16px 50px -12px rgba(79, 70, 229, 0.45); }
 
-.gradient-cluely-dark {
-  background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+/* Buttons. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: linear-gradient(120deg, #2563eb, #6366f1);
+  color: #fff;
+  box-shadow: 0 10px 30px -8px rgba(79, 70, 229, 0.6);
+}
+.btn-primary:hover { box-shadow: 0 14px 40px -8px rgba(79, 70, 229, 0.8); transform: translateY(-1px); }
+.btn-ghost {
+  background: var(--ghost-bg);
+  color: rgb(var(--fg));
+  border: 1px solid var(--glass-border);
+}
+.btn-ghost:hover { background: var(--ghost-bg-hover); }
 
-/* Text shadows для читаемости на темном фоне */
-.text-shadow {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+/* Entrance animation. */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Slow float for the hero mockup. */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* Live streaming caret. */
+@keyframes blink { 50% { opacity: 0; } }
+.caret::after {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: #818cf8;
+  border-radius: 1px;
+  animation: blink 1s steps(1) infinite;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 }
 
+/* Slim scrollbar. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 9999px; }
+::-webkit-scrollbar-track { background: transparent; }
