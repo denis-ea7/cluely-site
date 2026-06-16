@@ -18,13 +18,21 @@ const cols = [
       { label: 'Контакты', href: 'mailto:contact@suflo.ru' },
     ],
   },
+  {
+    title: 'Документы',
+    links: [
+      { label: 'Публичная оферта', href: '/oferta/' },
+      { label: 'Реквизиты', href: '/requisites/' },
+      { label: 'Политика конфиденциальности', href: '/oferta/#privacy' },
+    ],
+  },
 ]
 
 export default function Footer() {
   return (
     <footer className="border-t border-line/10 py-14">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           <div className="col-span-2 md:col-span-2">
             <Logo size={30} className="text-fg text-lg" />
             <p className="mt-4 max-w-xs text-sm text-muted">
@@ -49,9 +57,14 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line/10 pt-6 text-sm text-faint sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} Suflo. Все права защищены.</p>
-          <p>AI-суфлёр для встреч и интервью · suflo.ru</p>
+        <div className="mt-12 border-t border-line/10 pt-6 text-sm text-faint">
+          <p className="mb-2">
+            Самозанятый Евсеев Денис Николаевич · ИНН 200888684367 · НПД (налог на профессиональный доход)
+          </p>
+          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+            <p>&copy; {new Date().getFullYear()} Suflo. Все права защищены.</p>
+            <p>AI-суфлёр для встреч и интервью · suflo.ru</p>
+          </div>
         </div>
       </div>
     </footer>
