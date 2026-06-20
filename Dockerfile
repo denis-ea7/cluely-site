@@ -45,8 +45,7 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/app ./app
-
-RUN mkdir -p ./public && ([ -d /app/public ] && cp -r /app/public/* ./public/ || true)
+COPY --from=builder /app/public ./public
 
 EXPOSE 3005
 CMD ["npm", "start"]
