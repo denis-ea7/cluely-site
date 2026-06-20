@@ -5,7 +5,17 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/api/', '/_next/'],
+      disallow: [
+        '/admin/',
+        '/api/',
+        '/_next/',
+        '/account/',
+        '/checkout/',
+        '/success/',
+        '/reset/',
+        '/reset-request/',
+        '/login/',
+      ],
     },
     sitemap: 'https://suflo.ru/sitemap.xml',
     host: 'https://suflo.ru',

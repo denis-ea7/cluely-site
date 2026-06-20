@@ -1,83 +1,100 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import BlogCover from '@/components/BlogCover'
+import Footer from '@/components/Footer'
+import JsonLd from '@/components/JsonLd'
 import { blogPosts, blogPostsById } from '@/lib/blog'
+import { pageMetadata, articleLd, breadcrumbLd } from '@/lib/seo'
 
-export async function generateStaticParams() {
-  return blogPosts.map((p) => ({ id: String(p.id) }))
+export function generateStaticParams() {
+  // Slug URLs are canonical; numeric ids stay valid for old /blog/1 links.
+  return blogPosts.flatMap((p) => [{ id: p.slug }, { id: String(p.id) }])
 }
 
 export function generateMetadata({ params }: { params: { id: string } }) {
   const post = blogPostsById[params.id]
   if (!post) return { title: 'Пост не найден' }
-  return {
+  return pageMetadata({
     title: `${post.title} | Блог Suflo`,
     description: post.excerpt,
-    alternates: {
-      canonical: `https://suflo.ru/blog/${params.id}`,
-      languages: { 'ru-RU': `https://suflo.ru/blog/${params.id}` },
-    },
-    openGraph: {
-      title: `${post.title} | Suflo`,
-      description: post.excerpt,
-      url: `https://suflo.ru/blog/${params.id}`,
-      siteName: 'Suflo',
-    },
+    path: `/blog/${post.slug}`,
+    ogType: 'article',
+  })
+}
+
+/** Inline markdown: turns [text](url) into links and strips **bold**. */
+function renderInline(text: string) {
+  const parts: React.ReactNode[] = []
+  const re = /\[([^\]]+)\]\(([^)]+)\)/g
+  let last = 0
+  let m: RegExpExecArray | null
+  let key = 0
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(strip(text.slice(last, m.index)))
+    parts.push(
+      <Link key={key++} href={m[2]} className="font-medium text-indigo-400 hover:text-indigo-300">
+        {m[1]}
+      </Link>
+    )
+    last = m.index + m[0].length
   }
+  if (last < text.length) parts.push(strip(text.slice(last)))
+  return parts
+}
+
+const strip = (s: string) => s.replace(/\*\*(.*?)\*\*/g, '$1')
+
+function formatContent(content: string) {
+  return content.split('\n\n').map((paragraph, index) => {
+    if (paragraph.startsWith('**') && paragraph.includes(':**')) {
+      const [title, ...rest] = paragraph.split(':**')
+      const titleText = title.replace('**', '').trim()
+      return (
+        <div key={index} className="mb-5">
+          <h2 className="mb-3 text-xl font-bold text-fg">{titleText}</h2>
+          <ul className="list-inside list-disc space-y-2 text-muted">
+            {rest
+              .join(':**')
+              .split('\n')
+              .filter(Boolean)
+              .map((item, i) => (
+                <li key={i}>{renderInline(item.replace(/^-\s*/, '').trim())}</li>
+              ))}
+          </ul>
+        </div>
+      )
+    }
+    return (
+      <p key={index} className="mb-4 leading-relaxed text-muted">
+        {renderInline(paragraph)}
+      </p>
+    )
+  })
 }
 
 export default function BlogPostPage({ params }: { params: { id: string } }) {
   const post = blogPostsById[params.id]
   if (!post) notFound()
 
-  const formatContent = (content: string) =>
-    content.split('\n\n').map((paragraph, index) => {
-      if (paragraph.startsWith('**') && paragraph.includes(':**')) {
-        const [title, ...rest] = paragraph.split(':**')
-        const titleText = title.replace('**', '').trim()
-        return (
-          <div key={index} className="mb-5">
-            <h3 className="mb-3 text-xl font-bold text-fg">{titleText}</h3>
-            <ul className="list-inside list-disc space-y-2 text-muted">
-              {rest
-                .join(':**')
-                .split('\n')
-                .filter(Boolean)
-                .map((item, i) => (
-                  <li key={i}>{item.replace(/^-\s*/, '').trim()}</li>
-                ))}
-            </ul>
-          </div>
-        )
-      }
-      return (
-        <p key={index} className="mb-4 leading-relaxed text-muted">
-          {paragraph.replace(/\*\*(.*?)\*\*/g, '$1')}
-        </p>
-      )
-    })
-
   return (
     <div className="bg-app min-h-screen">
-      <header className="glass-strong sticky top-0 z-50 border-b border-line/10">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-fg">
-              Suflo
-            </Link>
-            <nav className="flex gap-6">
-              <Link href="/" className="text-muted transition-colors hover:text-fg">
-                Главная
-              </Link>
-              <Link href="/blog" className="font-semibold text-indigo-400">
-                Блог
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <JsonLd
+        data={[
+          articleLd({
+            title: post.title,
+            description: post.excerpt,
+            path: `/blog/${post.slug}`,
+            datePublished: post.iso,
+          }),
+          breadcrumbLd([
+            { name: 'Главная', path: '/' },
+            { name: 'Блог', path: '/blog' },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
 
-      <article className="container mx-auto px-4 py-12">
+      <article className="container mx-auto px-4 pt-32 pb-12 md:pt-40">
         <div className="mx-auto max-w-3xl">
           <Link
             href="/blog"
@@ -93,7 +110,9 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
             <span className="rounded-full border border-line/10 bg-fg/5 px-4 py-1.5 text-sm font-medium text-muted">
               {post.category}
             </span>
-            <time className="text-sm text-faint">{post.date}</time>
+            <time dateTime={post.iso} className="text-sm text-faint">
+              {post.date}
+            </time>
           </div>
 
           <h1 className="mb-3 text-4xl font-bold text-fg md:text-5xl">{post.title}</h1>
@@ -113,6 +132,8 @@ export default function BlogPostPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </article>
+
+      <Footer />
     </div>
   )
 }

@@ -6,9 +6,9 @@ import Logo from '@/components/Logo'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const links = [
-  { href: '#features', label: 'Возможности' },
-  { href: '#benefits', label: 'Преимущества' },
-  { href: '#pricing', label: 'Цены' },
+  { href: '/#features', label: 'Возможности' },
+  { href: '/use-cases', label: 'Сценарии' },
+  { href: '/pricing', label: 'Цены' },
   { href: '/blog', label: 'Блог' },
 ]
 

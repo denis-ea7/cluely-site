@@ -1,0 +1,36 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="75%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#2563eb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#060810" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#060810"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- waveform accent -->
+  <g transform="translate(95, 250)">
+    <rect x="0"   y="26" width="9" height="28" rx="4" fill="url(#accent)" opacity="0.5"/>
+    <rect x="20"  y="8"  width="9" height="64" rx="4" fill="url(#accent)" opacity="0.7"/>
+    <rect x="40"  y="-14" width="9" height="108" rx="4" fill="url(#accent)"/>
+    <rect x="60"  y="14" width="9" height="52" rx="4" fill="url(#accent)" opacity="0.7"/>
+    <rect x="80"  y="30" width="9" height="20" rx="4" fill="url(#accent)" opacity="0.5"/>
+  </g>
+
+  <text x="95" y="200" font-family="Inter, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#95a0bd" letter-spacing="1">suflo.ru</text>
+
+  <text x="92" y="400" font-family="Inter, Helvetica, Arial, sans-serif" font-size="128" font-weight="800" fill="#e6e9f2" letter-spacing="-2">Suflo</text>
+
+  <text x="95" y="478" font-family="Inter, Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#e6e9f2">Невидимый AI-суфлёр для встреч и интервью</text>
+
+  <text x="95" y="534" font-family="Inter, Helvetica, Arial, sans-serif" font-size="30" font-weight="400" fill="#95a0bd">Слушает разговор и подсказывает ответы в реальном времени</text>
+
+  <text x="95" y="582" font-family="Inter, Helvetica, Arial, sans-serif" font-size="26" font-weight="500" fill="#818cf8">Для России и СНГ · на русском · без VPN</text>
+</svg>

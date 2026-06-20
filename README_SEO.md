@@ -1,139 +1,74 @@
-# SEO-оптимизация для Suflo Россия
+# SEO Suflo — карта и чек-лист
 
-## Выполненные задачи
+Документ описывает SEO-структуру сайта suflo.ru и шаги, которые нужно сделать вручную
+(аналитика, вебмастера, внешние площадки).
 
-### 1. Упоминание оригинального сайта (suflo.com)
+## 1. Структура страниц
 
-✅ **Метатеги:**
-- В `app/layout.tsx` добавлены ссылки на оригинальный suflo.com
-- Canonical URL указан
-- Open Graph теги обновлены
+| URL | Назначение | Метаданные |
+|-----|-----------|-----------|
+| `/` | Главная | `app/layout.tsx` (+ глобальный JSON-LD) |
+| `/pricing` | Тарифы + FAQ | `app/pricing/page.tsx` |
+| `/download` | Скачать приложение | `app/download/page.tsx` |
+| `/use-cases` | Индекс сценариев | `app/use-cases/page.tsx` |
+| `/use-cases/ai-interview-assistant` | Посадочная: собеседования | `lib/use-cases.ts` |
+| `/use-cases/live-coding-assistant` | Посадочная: live coding | `lib/use-cases.ts` |
+| `/use-cases/meeting-assistant` | Посадочная: встречи | `lib/use-cases.ts` |
+| `/use-cases/sales-call-assistant` | Посадочная: звонки/продажи | `lib/use-cases.ts` |
+| `/blog` + `/blog/<slug>` | Блог (26 статей) | `lib/blog.ts` |
+| `/contact` | Контакты | `app/contact/page.tsx` |
+| `/privacy` | Политика конфиденциальности (152-ФЗ) | `app/privacy/page.tsx` |
+| `/terms` | Условия использования | `app/terms/page.tsx` |
+| `/oferta`, `/requisites` | Юридические | существующие |
+| `/login` | Алиас → `/auth` (noindex, canonical на `/auth`) | `app/login/page.tsx` |
 
-✅ **Контент:**
-- Hero секция содержит ссылку на suflo.com
-- Footer содержит упоминание оригинального проекта
-- Все компоненты обновлены с упоминанием российской адаптации
+## 2. Технический SEO (реализовано)
 
-✅ **Мета-описание:**
-- Все описания указывают на то, что это российская адаптация Suflo
-- Упоминается оригинальный проект suflo.com
+- **Canonical + OG + Twitter** на каждой странице — через `pageMetadata()` в `lib/seo.ts`.
+- **metadataBase** = `https://suflo.ru` (относительные OG-ссылки).
+- **OG-картинка** 1200×630 — `public/og.png` (исходник `public/og.svg`).
+- **JSON-LD** (`components/JsonLd.tsx`):
+  - глобально: `Organization`, `WebSite`, `SoftwareApplication` (с офферами тарифов);
+  - страницы: `FAQPage`, `BreadcrumbList`, `Article`, `WebPage`.
+- **sitemap.xml** (`app/sitemap.ts`) — 40 URL, тянется из данных блога и use-cases.
+- **robots.txt** (`app/robots.ts`) — служебные страницы закрыты (`/account`, `/checkout`,
+  `/success`, `/reset`, `/login` и т.д.).
+- **Один H1 на странице**, осмысленные H2/H3, ЧПУ-слаги в блоге.
+- **Верификация** Google + Yandex — `metadata.verification` в `app/layout.tsx`
+  (не удалять — иначе подтверждение слетит).
 
-### 2. Robots.txt и Sitemap.xml
+> Деплой-гоча: прод-`Dockerfile` запускает `next start` (не статический экспорт) и теперь
+> копирует `public/` в образ (`COPY public ./public`) — иначе `og.png` отдавал бы 404.
 
-✅ **robots.txt** (`public/robots.txt`):
-- Правильно настроен для индексации
-- Ссылка на sitemap.xml
-- Разрешены все основные страницы
+## 3. Аналитика — нужно вписать ID (env)
 
-✅ **sitemap.xml** (`app/sitemap.ts`):
-- Создан динамический sitemap через Next.js
-- Включает все страницы: главная, блог, посты
-- Правильные приоритеты и частота обновления
-- Указаны alternates для обеих версий
-
-### 3. Hreflang теги
-
-✅ **Добавлены hreflang теги:**
-- В `app/layout.tsx` в `<head>`:
-  - `<link rel="alternate" hrefLang="ru" href="https://suflo.ru" />`
-  - `<link rel="alternate" hrefLang="en" href="https://suflo.com" />`
-- В метаданных всех страниц через `alternates.languages`
-- В sitemap.xml через `alternates.languages`
-
-### 4. Уникальный и адаптированный контент
-
-✅ **Все тексты обновлены:**
-- "Suflo Россия" вместо просто "Suflo"
-- Упоминание "российская адаптация"
-- Упоминание "для России и СНГ"
-- Ссылки на оригинальный suflo.com
-
-✅ **Компоненты обновлены:**
-- Hero: упоминание российской адаптации
-- Features: акцент на русский язык
-- Benefits: упоминание России и СНГ
-- Pricing: цены в рублях
-- Footer: упоминание оригинального проекта
-- CTA: упоминание России и СНГ
-
-✅ **Блог:**
-- Все посты обновлены с упоминанием "Suflo Россия"
-- Авторы: "Команда Suflo Россия"
-- Метаданные обновлены
-
-## Структура файлов
+Счётчики уже подключены через `components/Analytics.tsx`, но включаются только при наличии
+переменных окружения (в `deploy/.env` и проброс в `docker-compose.yml`, service `site`):
 
 ```
-suflo-site/
-├── app/
-│   ├── layout.tsx          # Метатеги, hreflang, canonical
-│   ├── sitemap.ts          # Динамический sitemap
-│   ├── page.tsx            # Главная страница
-│   └── blog/
-│       ├── page.tsx         # Список постов (с метаданными)
-│       └── [id]/
-│           └── page.tsx    # Отдельный пост (с метаданными)
-├── public/
-│   └── robots.txt          # Robots.txt для поисковиков
-└── components/
-    ├── Hero.tsx            # Упоминание suflo.com
-    ├── Features.tsx
-    ├── Benefits.tsx        # Упоминание suflo.com
-    ├── Pricing.tsx
-    ├── CTA.tsx             # Упоминание suflo.com
-    └── Footer.tsx          # Упоминание suflo.com
+NEXT_PUBLIC_YM_ID=<номер счётчика Яндекс.Метрики>
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX   # GA4 measurement id
 ```
 
-## SEO-метрики
+Это `NEXT_PUBLIC_*` — значения зашиваются на этапе сборки, поэтому после правки `.env`
+нужно пересобрать образ site.
 
-- ✅ Canonical URLs для всех страниц
-- ✅ Hreflang для обеих версий (ru/en)
-- ✅ Open Graph теги
-- ✅ Правильные мета-описания
-- ✅ Robots.txt настроен
-- ✅ Sitemap.xml с alternates
-- ✅ Уникальный контент с упоминанием источника
-- ✅ Адаптация под Россию и СНГ
+## 4. Ручные шаги (вне кода)
 
-## Проверка
+- [ ] Создать счётчик **Яндекс.Метрики** и **GA4**, вписать ID (см. выше), пересобрать.
+- [ ] **Google Search Console** и **Яндекс.Вебмастер**: переотправить `sitemap.xml`
+      (добавились use-cases и 20 статей), проверить индексацию.
+- [ ] Залить новые статьи в индекс (переобход в Вебмастере).
+- [ ] **Площадки** (быстрый трафик): Product Hunt, Reddit, Hacker News, Indie Hackers,
+      vc.ru, Хабр, Telegram-чаты — посты в формате кейса, а не рекламы.
+- [ ] **Видео** (15–40 сек, экран + голос, CTA download): как помогает на собеседовании,
+      live coding demo, Zoom/Meet demo, русское и английское интервью — на YouTube Shorts,
+      TikTok, Reels, LinkedIn, X, Telegram.
 
-После деплоя проверьте:
-1. `https://suflo.ru/robots.txt` - доступен и правильный
-2. `https://suflo.ru/sitemap.xml` - генерируется автоматически
-3. Hreflang теги в `<head>` каждой страницы
-4. Canonical URL в метатегах
-5. Ссылки на suflo.com работают
+## 5. Что проверить после деплоя
 
-## Примечания
-
-- Все ссылки на suflo.com открываются в новой вкладке (`target="_blank" rel="noopener noreferrer"`)
-- Упоминание оригинального проекта везде внизу или в футере
-- Контент уникален и адаптирован для русскоязычной аудитории
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. `https://suflo.ru/sitemap.xml` — 40 URL, открывается.
+2. `https://suflo.ru/robots.txt` — корректный, со ссылкой на sitemap.
+3. `https://suflo.ru/og.png` — отдаётся (200, image/png).
+4. Любая страна use-case и пост блога — один H1, есть JSON-LD (валидатор Rich Results).
+5. Метатеги верификации Google/Yandex на месте.

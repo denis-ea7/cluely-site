@@ -1,94 +1,37 @@
 import { MetadataRoute } from 'next'
+import { blogPosts } from '@/lib/blog'
+import { useCases } from '@/lib/use-cases'
+import { SITE_URL } from '@/lib/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://suflo.ru'
-  const blogPosts = [
-    { id: 1, date: '2025-01-15' },
-    { id: 2, date: '2025-01-08' },
-    { id: 3, date: '2024-12-28' },
-    { id: 4, date: '2024-12-20' },
-    { id: 5, date: '2024-12-12' },
-    { id: 6, date: '2024-12-05' },
-  ]
+  const now = new Date()
 
-  const routes = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-      alternates: {
-        languages: {
-          ru: 'https://suflo.ru',
-          en: 'https://suflo.ru',
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: {
-          ru: 'https://suflo.ru/blog',
-          en: 'https://suflo.ru',
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/oferta`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/requisites`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    },
-    ...blogPosts.map((post) => ({
-      url: `${baseUrl}/blog/${post.id}`,
-      lastModified: new Date(post.date),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-      alternates: {
-        languages: {
-          ru: `https://suflo.ru/blog/${post.id}`,
-          en: 'https://suflo.ru',
-        },
-      },
-    })),
-  ]
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: SITE_URL, changeFrequency: 'weekly' as const, priority: 1 },
+    { url: `${SITE_URL}/pricing`, changeFrequency: 'monthly' as const, priority: 0.9 },
+    { url: `${SITE_URL}/use-cases`, changeFrequency: 'monthly' as const, priority: 0.8 },
+    { url: `${SITE_URL}/download`, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${SITE_URL}/blog`, changeFrequency: 'weekly' as const, priority: 0.7 },
+    { url: `${SITE_URL}/contact`, changeFrequency: 'yearly' as const, priority: 0.4 },
+    { url: `${SITE_URL}/privacy`, changeFrequency: 'yearly' as const, priority: 0.3 },
+    { url: `${SITE_URL}/terms`, changeFrequency: 'yearly' as const, priority: 0.3 },
+    { url: `${SITE_URL}/oferta`, changeFrequency: 'yearly' as const, priority: 0.3 },
+    { url: `${SITE_URL}/requisites`, changeFrequency: 'yearly' as const, priority: 0.3 },
+  ].map((r) => ({ ...r, lastModified: now }))
 
-  return routes
+  const useCaseRoutes: MetadataRoute.Sitemap = useCases.map((u) => ({
+    url: `${SITE_URL}/use-cases/${u.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.85,
+  }))
+
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.iso),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticRoutes, ...useCaseRoutes, ...blogRoutes]
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

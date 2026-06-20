@@ -6,7 +6,7 @@ export default function BlogPost({ post }: { post: Post }) {
   return (
     <article className="glass overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:border-line/20">
       {/* Cover art */}
-      <Link href={`/blog/${post.id}`} className="block">
+      <Link href={`/blog/${post.slug}`} className="block">
         <div className="relative">
           <BlogCover gradient={post.gradient} seed={post.id} className="h-48 w-full" />
           <span className="absolute left-4 top-4 rounded-full bg-black/25 px-3 py-1 text-xs font-medium text-white backdrop-blur">
@@ -33,7 +33,7 @@ export default function BlogPost({ post }: { post: Post }) {
         </div>
 
         <Link
-          href={`/blog/${post.id}`}
+          href={`/blog/${post.slug}`}
           className="inline-flex items-center gap-2 font-semibold text-indigo-400 transition-colors hover:text-indigo-300"
         >
           Читать полностью

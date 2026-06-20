@@ -1,6 +1,7 @@
 import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import Benefits from '@/components/Benefits'
+import UseCasesSection from '@/components/UseCasesSection'
 import Pricing from '@/components/Pricing'
 import CTA from '@/components/CTA'
 import Footer from '@/components/Footer'
@@ -11,6 +12,7 @@ export default function Home() {
       <Hero />
       <Features />
       <Benefits />
+      <UseCasesSection />
       <Pricing />
       <CTA />
       <Footer />

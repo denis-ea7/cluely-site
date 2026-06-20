@@ -13,7 +13,9 @@ COPY *.config.js ./
 COPY *.json ./
 COPY tsconfig.json ./
 
-# Ensure public exists
+# Static assets served from / (og.png, etc.). Must be copied so they ship in
+# the image — the runtime is `next start`, which serves public/ at the root.
+COPY public ./public
 RUN mkdir -p ./public
 
 # Override next.config.js for production (без output: 'export')
