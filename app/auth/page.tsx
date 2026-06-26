@@ -10,6 +10,7 @@ import {
   authErrorMessage,
   PLANS,
 } from '@/lib/api'
+import { reachMetrikaGoal } from '@/lib/metrika'
 import Logo from '@/components/Logo'
 
 function AuthForm() {
@@ -67,6 +68,7 @@ function AuthForm() {
           setLoading(false)
           return
         }
+        reachMetrikaGoal('register')
         // Auto-login right after a successful registration.
       }
 

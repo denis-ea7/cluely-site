@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useRef } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { apiCheckout, getToken, PLANS, DEFAULT_PLAN, formatPrice } from '@/lib/api'
+import { reachMetrikaGoal, reachMetrikaGoalOnce } from '@/lib/metrika'
 
 function Checkout() {
   const searchParams = useSearchParams()
@@ -10,6 +11,7 @@ function Checkout() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [token, setTokenState] = useState<string | null>(null)
+  const checkoutTracked = useRef(false)
 
   const planId = (searchParams.get('plan') || DEFAULT_PLAN).toLowerCase()
   const plan = PLANS[planId] || PLANS[DEFAULT_PLAN]
@@ -24,10 +26,17 @@ function Checkout() {
     setTokenState(t)
   }, [planId, router])
 
+  useEffect(() => {
+    if (!token || checkoutTracked.current) return
+    checkoutTracked.current = true
+    reachMetrikaGoalOnce('begin_checkout', `begin_checkout:${planId}`)
+  }, [planId, token])
+
   const handlePay = async () => {
     if (!token) return
     setError('')
     setLoading(true)
+    reachMetrikaGoal('checkout_submit')
     try {
       const res = await apiCheckout(token, planId)
       if (res.ok && res.data?.confirmationUrl) {

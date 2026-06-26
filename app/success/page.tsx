@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { appDeeplink, getToken, apiUserInfo } from '@/lib/api'
+import { reachMetrikaGoal } from '@/lib/metrika'
 
 type Status = 'checking' | 'active' | 'pending'
 
@@ -37,6 +38,7 @@ export default function SuccessPage() {
           setStatus('active')
           if (!handedOff.current) {
             handedOff.current = true
+            reachMetrikaGoal('purchase')
             try {
               window.location.href = appDeeplink(t)
             } catch {
